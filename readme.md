@@ -1,12 +1,14 @@
 # Running .fsx files
 
-Either run the `run.sh` file with your `.fsx` file as argument.
+Either run the `run.sh` script with your `.fsx` file as argument.
 
 ```bash 
 ./run.sh "script.fsx"
 ```
 
-Or, manually enter interactive environemnt:
+---
+
+Or, manually enter interactive environment
 
 ```bash
 dotnet fsi
@@ -21,7 +23,7 @@ open Script
 
 ---
 
-Now you can utilize the functions within.
+In both cases you can now, utilize the functions within `script.fsx` directly
 
 ```bash
 dostuff 5
