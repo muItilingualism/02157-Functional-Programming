@@ -1,21 +1,27 @@
-# HOW TO RUN .fsx FILES
+# Running .fsx files
 
-interactively:
+Either run the `run.sh` file with your `.fsx` file as argument.
 
-enter interactive environemnt:
+```bash 
+./run.sh "script.fsx"
+```
+
+Or, manually enter interactive environemnt:
 
 ```bash
 dotnet fsi
 ``` 
 
-load the .fsx
+Load the .fsx
 
 ```bash
 #load "script.fsx"
 open Script
 ```
 
-now you can utilize the functions within.
+---
+
+Now you can utilize the functions within.
 
 ```bash
 dostuff 5
