@@ -1,22 +1,23 @@
 #!/bin/sh
 
-generate_main_script() {
-    echo "printfn \"Loading all .fsx files...\""
-    find . -type f -name "*.fsx" | while read -r file; do
-        absolute_path=$(realpath "$file")
-        filename=$(basename "$absolute_path" .fsx)
-        module_name="$(tr '[:lower:]' '[:upper:]' <<< ${filename:0:1})${filename:1}"
-        echo "#load \"$absolute_path\""
-        echo "open $module_name"
-    done
-    echo "printfn \"All .fsx files have been processed.\""
-}
+script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
-main_script=$(mktemp --suffix .fsx)
+poly_file="$script_dir/poly.fsx"
 
-generate_main_script > "$main_script"
+if [ ! -f "$poly_file" ]; then
+    echo "File not found: $poly_file"
+    exit 1
+fi
 
-dotnet fsi --use:"$main_script"
+temp_script=$(mktemp --suffix .fsx)
 
-rm "$main_script"
+cat << EOF > "$temp_script"
+#load "$poly_file"
+open Poly
+printfn "Module Poly loaded successfully."
+EOF
+
+dotnet fsi --use:"$temp_script"
+
+rm "$temp_script"
 
