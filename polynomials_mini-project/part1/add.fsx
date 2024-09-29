@@ -11,7 +11,6 @@ add on these two lists should give
 *)
 let rec add (xs: Poly) (ys: Poly) : Poly =
     match xs, ys with
-    | xs, [] -> xs
     | [], ys -> ys
-    | x::xtail, y::ytail -> let xz = add xtail ytail
-                            ((x+y)::xz);;
+    | xs, [] -> xs
+    | x::xtail, y::ytail -> (x+y) :: add xtail ytail
