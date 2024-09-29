@@ -10,8 +10,8 @@ add on these two lists should give
 
 *)
 let rec add (xs: Poly) (ys: Poly) : Poly =
-    match (xs, ys) with
-    | (_, []) -> xs
-    | ([],_) -> ys
-    | (x::xtail, y::ytail) -> let xz = add xtail ytail
-                              ((x+y)::xz);;
+    match xs, ys with
+    | xs, [] -> xs
+    | [], ys -> ys
+    | x::xtail, y::ytail -> let xz = add xtail ytail
+                            ((x+y)::xz);;
