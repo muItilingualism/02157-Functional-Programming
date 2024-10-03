@@ -81,7 +81,6 @@ let rec mul (xs: Poly) (ys: Poly) : Poly =
  * For example, if P (x) = 2 + 3x + x3 then P (2) = 2 + 3 · 2 + 23 = 16, and, therefore,
  * eval 2 [2; 3; 0; 1] = 16.
  *)
-
 let rec private pow (x: int) (n: int) : int =
     match n with
     | 0 -> 1
@@ -96,3 +95,17 @@ let rec private evalHelp (n: int) (d: int) (xs: Poly) : int =
 let eval (n: int) (xs: Poly) : int = evalHelp n 0 xs;;
 
 (* END OF PART 1 *)
+
+(* START OF PART 2 *)
+
+(**
+ * The function isLegal: int list -> bool
+ * The function isLegal tests whether an integer lists is a legal representation of a polynomial.
+ *)
+let rec isLegal (xs: int list) : bool =
+    match xs with
+    | [] -> true
+    | x::tail when x=0 && tail=[] -> false
+    | x::tail -> isLegal tail;;
+
+(* END OF PART 2 *)
