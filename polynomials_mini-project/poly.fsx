@@ -108,4 +108,18 @@ let rec isLegal (xs: int list) : bool =
     | x::tail when x=0 && tail=[] -> false
     | x::tail -> isLegal tail;;
 
+(**
+ * The function ofList: int list -> Poly
+ * Any integer list can be turned into a legal representation of a polynomial by removal of 0’s
+ * occurring at the end of the list. The function ofList should do this.
+ *)
+let rec ofList xs =
+    match xs with
+    | [] -> []
+    | x::tail ->
+        let tailWithoutZeros = ofList tail
+        match tailWithoutZeros, x with
+        | [], 0 -> []
+        | _ -> x::tailWithoutZeros
+
 (* END OF PART 2 *)
