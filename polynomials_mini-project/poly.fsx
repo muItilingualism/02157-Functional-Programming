@@ -122,4 +122,15 @@ let rec ofList xs =
         | [], 0 -> []
         | _ -> x::tailWithoutZeros
 
+(**
+ * The function toString: Poly -> string
+ * Choose an appealing textual representation of a polynomial and declare an associated
+ * toString function. You may have a look at the output presented on Page 2.
+ *)
+let rec toString (xs: Poly) : string =
+   match xs with
+   | [] -> ""
+   | [x] -> $"{x}"
+   | x::tail -> $"{x} {toString tail}";;
+
 (* END OF PART 2 *)
