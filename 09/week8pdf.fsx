@@ -91,7 +91,67 @@ let fromShelf (b: Book) (ss: Shelf): Shelf option =
        ("Communicating Sequential processes", "Mary", 7);
        ("Elements of the theory of computation", "Dick", 1)]|
 *)
+// assuming arbitrary ordering
 
-let 
+let addLoan (b: Book) (n: Name) (d: Date) (ls: Loan list): Loan list =
+    match ls with
+    | [] -> [Loan(b, n, d)]
+    | _ -> Loan(b, n, d)::ls;;
 
+let rec removeLoan (b: Book) (n: Name) (ls: Loan list): Loan list =
+    match ls with
+    | [] -> []
+    | (bx, bn, _)::tail when b=bx && n=bn -> tail
+    | l::tail -> l::(removeLoan b n tail);;
 
+(*
+5. Declare a function reminders: Date -> Loan list -> (Name * Book) list. The
+   value of reminders d0 ls is a list of pairs (n, b) from loans (b, n, d) in ls where d < d0.
+   We interpret d < d0 as “date d is before date d0”.
+
+   For example, reminders 3 ls0 has two elements: ("Paul","Programming in Haskell")
+   and ("Dick", "Elements of the theory of computation").
+*)
+
+let rec reminders (d: Date) (ls: Loan list): (Name * Book) list =
+    match ls with
+    | [] -> []
+    | (b, n, dl)::tail when dl < d -> (n, b)::(reminders d tail)
+    | _::tail -> reminders d tail;;
+
+(*
+6. In this problem, we consider a textual form of the reminders from Question 5, where,
+   for example, a letter reminding Paul to return "Programming in Haskell" has the form:
+
+       "Dear Paul!
+        Please return "Programming in Haskell".
+        Regards Robin"
+
+   Declare a function toLetters: (Name * Book) list -> string list, that trans-
+   forms a list pairs (n, b) to a list of corresponding strings (letters). Notice, the escape
+   characters \n and BACKSLASH QUOTES denote newline and citation quotation, respectively.
+*)
+
+let rec toLetters (nb: (Name * Book) list): string list =
+    match nb with
+    | [] -> []
+    | (n, b)::tail -> ("Dear " + n + "!\nPlease return \"" + b + "\".\nRegards Robin")::(toLetters tail);;
+
+(*
+7. This question should be solved using functions from the List library. You should not
+   use explicit recursion in the declarations.
+   
+   1. Give an alternative declaration of toLetters using List.map.
+   2. Give an alternative declaration of reminders using List.foldBack.
+*)
+
+let toLetters1 (nb: (Name * Book) list): string list = 
+    nb |> List.map (fun (n, b) -> ("Dear " + n + "!\nPlease return \"" + b + "\".\nRegards Robin"));;
+
+let reminders1 (d: Date) (ls: Loan list): (Name * Book) list =
+    List.foldBack 
+        (fun (b: Book, n: Name, dl: Date) acc -> //compiler so stoopid
+            if dl < d then (n, b)::acc 
+            else acc) 
+        ls
+        ([] : (Name * Book) list);;
