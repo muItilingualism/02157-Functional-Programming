@@ -66,21 +66,32 @@ let rec toShelf (b: Book) (ss: Shelf): Shelf =
    expression fromShelf b bs is None if bs does not contain b. Otherwise, the value is
    Some bs′, where bs′ is obtained from bs by deletion of one occurrence of b.
 *)
-let rec deleteOne (b: Book) (ss: Shelf): Shelf =
+
+let rec fromShelfHelp (b: Book) (ss: Shelf): Shelf =
     match ss with
-    | [] -> [];
+    | [] -> [] //can never be reached?
     | sb::tail when b=sb -> tail
-    | sb::tail -> sb::(deleteOne b tail);;
+    | sb::tail -> sb::(fromShelfHelp b tail)
+    
 
-let rec fromShelfHelp (b: book) (ss: Shelf) (acc: Shelf option): Shelf option =
-    match ss with
-    | [] -> acc
-    | sb::tail when b=sb -> Some (acc @ tail)
-    | sb::tail -> sb::(fromShelfHelp b ss acc tail)
+let fromShelf (b: Book) (ss: Shelf): Shelf option =
+    if (not (onShelf b ss)) then
+        None
+    else
+        Some (fromShelfHelp b ss);;
 
-let rec fromShelf (b: Book) (ss: Shelf): Shelf option =
-    match ss with
-    | [] -> None
-    | sb::tail when b=sb -> delete
-    | _::tail -> fromShelf b tail;;
+(*
+4. Declare a function addLoan b n d ls, that adds the loan (b, n, d) to the list of loans ls.
+   Furthermore, declare a function removeLoan b n ls. The value of the function is the list
+   obtained from the list of loans ls by deletion of the first element of the form (b, n, d),
+   where d is some date, if such an element exists. Otherwise ls is returned. For example,
+   removeLoan "Programming in Haskell" "Paul" ls0 gives the list
+      
+      [("Communication and concurrency", "Bob", 4);
+       ("Communicating Sequential processes", "Mary", 7);
+       ("Elements of the theory of computation", "Dick", 1)]|
+*)
+
+let 
+
 
