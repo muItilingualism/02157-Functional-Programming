@@ -1,3 +1,5 @@
+// --- PROBLEM 1 ---
+
 (*
 A teacher named Robin has a bookshelf with book that are lent to colleagues and students.
 The following models of the shelf and the loans are introduced to keep track of books:
@@ -155,3 +157,98 @@ let reminders1 (d: Date) (ls: Loan list): (Name * Book) list =
             else acc) 
         ls
         ([] : (Name * Book) list);;
+
+
+// --- PROBLEM 2 ---
+
+(*
+The function allPairs from the List library could have the following declaration:
+  let rec f x = function
+                | [] -> []
+                | y::ys -> (x,y)::f x ys;;
+
+  val f : ’a -> ’b list -> (’a * ’b) list
+
+  let rec allPairs xs ys =
+      match xs with
+      | [] -> []
+      | x::xrest -> f x ys @ allPairs xrest ys;;
+
+  val allPairs : ’a list -> ’b list -> (’a * ’b) list
+
+where f is a helper function. Notice that the F# system automatically infers the types of
+f and allPairs.
+
+1. Give an argument showing that ’a -> ’b list -> (’a * ’b) list is indeed the
+   most general type of f and that ’a list -> ’b list -> (’a * ’b) list is indeed
+   the most general type of allPairs. That is, any other type for f is an instance of
+   ’a -> ’b list -> (’a * ’b) list. Similarly for allPairs.
+
+f is an anonymous function that takes two arguments, lets say for now x of type 'a and a list 'b.
+
+The first argument x has no other operations than being put in a pair as the return type, hence
+our initial return type is ('a * something)
+
+Our list also only has one operation that is an element of the argument list is put into the second part
+of the pair, hence our return type is now ('a * 'b).
+
+There is no interaction between x nor the list, hence they may be of different or the same type.
+
+The function then recurses and the pairs are concattenated(?) and put into a list, hence our final return type is
+
+('a * 'b) list
+
+
+Having determined the type of f, we may move onto allPairs as it utilizes f.
+
+Initially we see allPairs take two arguments and immediately we see a match for xs and it possibly being an empty list as the base case
+as such xs is at least 'c list for now. Next we see the destructured xs lists x value being used in f as an argument
+and since we determined before that the first argument of f is of type 'a we can conclude that xs is of type 'a list.
+
+ys is the second input to f meaning it must be of type 'b list. The return type is easily determined to be the same as f as we are applying
+f to x and ys and appending the recursion.
+
+*)
+
+
+(*
+An example using f is:
+  f "a" [1;2;3];;
+  val it : (string * int) list = [("a", 1); ("a", 2); ("a", 3)]
+
+2. Give an evaluation showing that [("a", 1); ("a", 2); ("a", 3)] is the value of the
+   expression f "a" [1;2;3]. Present your evaluations using the notation e1 -> e2 from
+   the textbook, where you can use => in your F# file rather than ->. You should include
+   at least as many evaluation steps as there are recursive calls.
+
+   f "a" [1;2;3]
+=> ("a", 1)::(f "a" [2;3]
+=> [("a", 1)]::("a", 2)::(f "a" [3])
+=> [("a", 1); ("a", 2)]::("a", 3)::(f "a" [])
+=> [("a", 1); ("a", 2); ("a", 3)]::[]
+=> [("a", 1); ("a", 2); ("a", 3)]
+
+*)
+
+
+(*
+3. Explain why the type of f "a" [1;2;3] is (string * int) list.
+
+"a" is a string due to the quotes surrounding the letter a.
+[1;2;3] is a list of ints
+
+Since f takes two arguments 'a and 'b list, we can apply our narrowed types, string and int list to the input arguments.
+And because f returns ('a * 'b) list we can also narrow these to string and int respectively.
+*)
+
+(*
+4. Give another declaration of f that is based on a single higher-order function from the
+   List library. The new declaration of f should not be recursive.
+*)
+
+let f x xs = List.foldBack (fun b acc -> (x, b)::acc) xs [];;
+
+let f1 x xs = List.fold (fun acc b -> (x, b)::acc) [] xs;; //incorrect order!
+
+
+
