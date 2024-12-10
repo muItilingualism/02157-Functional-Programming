@@ -1,8 +1,10 @@
-(*Declare an F# function pow: string * int -> string, where:
+(*
+Declare an F# function pow: string * int -> string, where:
 pow(s, n) = s · s · ... · s
            ︸ ︷︷︷︷︷ ︸
                   n
-where we use · to denote string concatenation. (The F# representation is +.)*)
+where we use · to denote string concatenation. (The F# representation is +.)
+*)
 
 let rec pow = function
     | (_, 0) -> ""
