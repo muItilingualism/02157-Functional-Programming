@@ -10,3 +10,10 @@ let rec split xs =
                                   (x::ys, zs)
     | x::rest -> let (ys, zs) = split rest
                  (ys, x::zs);;
+
+let rec split2 xs =
+    match xs with
+    | [] -> ([],[])
+    | [x] -> ([x],[])
+    | x1::x2::tail -> let (ys, zs) = split rest
+                      (x1::ys, x2::zs)

@@ -1,5 +1,7 @@
-(*Declare function evenN: int -> int list such that evenN n generates the list of the first
-n non-negative even numbers.*)
+(*
+Declare function evenN: int -> int list such that evenN n generates the list of the first
+n non-negative even numbers.
+*)
 
 let rec evenN = function
     | 0 -> []

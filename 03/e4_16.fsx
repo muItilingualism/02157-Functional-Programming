@@ -19,11 +19,14 @@ Find the types for f, g and h and explain the value of the expressions:
 3. h[x0,x1, . . . ,xn−1], n ≥ 0
 *)
 
-# f: (int, int list) -> int list
-# f takes a pair of int and list and returns a list of ints
+// f: (int, int list) -> int list
+// f takes a pair of int and int list and returns a list of ints
+// it adds x to the head of the list input to be returned and decrements x and the size of the list for each subsequent recursion until the input list is empty
 
-# g: (a', a') list -> (a', a') list
-# g takes a list of a generic pair of a' and returns the same type.
+// g: (a', a') list -> (a', a') list
+// g takes a list of a generic pair of a' and returns the same type.
+// it reverses every other pair.
 
-# h: a' list -> a' list
-# h takes a generic list and returns the same type.
+// h: a' list -> a' list
+// h takes a generic list and returns the same type.
+// it mirrors the input list by appending the head in each recursion to the end
